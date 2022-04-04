@@ -23,23 +23,36 @@ const useAuthStore = defineStore("auth", {
 
     refreshToken() {
       return new Promise(async (resolve, reject) => {
-        const refresh_token = localStorage.getItem("refreshToken");
-        const { data } = await api.post(
-          "/auth/refresh",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${refresh_token}`,
-            },
-          }
-        );
-        this.saveToken(data.token);
-        resolve();
+        try {
+          const refreshToken = localStorage.getItem("refreshToken");
+          const { data } = await api.post(
+            "/auth/refresh",
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${refreshToken}`,
+              },
+            }
+          );
+          this.saveToken(data.token);
+
+          api.defaults.headers[
+            "Authorization"
+          ] = `Bearer ${data.token.accessToken}`;
+
+          await this.boot();
+          resolve();
+        } catch (error) {
+          resolve();
+        }
       });
     },
     logout() {
       return new Promise(async (resolve, reject) => {
         this.clearToken();
+        this.loggedIn = false;
+        this.user = {};
+        resolve();
       });
     },
 

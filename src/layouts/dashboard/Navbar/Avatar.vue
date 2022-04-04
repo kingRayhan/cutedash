@@ -31,16 +31,14 @@
 
 <script setup>
 import { h } from "vue";
-import { NIcon, NDropdown } from "naive-ui";
-import {
-  UserOutlined as UserIcon,
-  EditOutlined as EditIcon,
-  LogoutOutlined as LogoutIcon,
-  CarryOutFilled,
-} from "@vicons/antd";
+import { NIcon, NDropdown, useNotification } from "naive-ui";
+import { LogoutOutlined as LogoutIcon } from "@vicons/antd";
 import useAuthStore from "@/store/auth";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const auth = useAuthStore();
+const notification = useNotification();
 
 const renderIcon = (icon) => {
   return () => {
@@ -51,12 +49,17 @@ const renderIcon = (icon) => {
 };
 
 const options = [
-  { label: "Profile", key: "Profile", icon: renderIcon(UserIcon) },
-  { label: "Edit Profile", key: "Edit Profile", icon: renderIcon(EditIcon) },
-  { label: "Sign Out", key: "Sign Out", icon: renderIcon(LogoutIcon) },
+  { label: "Log Out", key: "logout", icon: renderIcon(LogoutIcon) },
 ];
 
 const handleSelect = (key) => {
-  console.log(key);
+  if (key === "logout") {
+    notification.success({
+      title: "Logout Success",
+      content: "You have been logged out",
+    });
+    router.push({ name: "auth.login" });
+    auth.logout();
+  }
 };
 </script>

@@ -21,12 +21,21 @@
         />
       </n-form-item>
 
-      <n-button attr-type="submit">Login</n-button>
+      <n-button attr-type="submit" :loading="isLoading">Login</n-button>
     </n-form>
 
     <n-alert title="Login Credential" type="info" class="mt-5">
       Email: example@example.com <br />
-      Password: pa$$word
+      Password: pa$$word <br />
+      <br />
+
+      <n-button
+        @click="
+          form.email = 'example@example.com';
+          form.password = 'pa$$word';
+        "
+        >Load Credential</n-button
+      >
     </n-alert>
   </div>
 </template>
@@ -59,7 +68,7 @@ const form = reactive({
   password: "",
 });
 
-const { mutateAsync, isLoading, isError } = useMutation("login", (payload) =>
+const { mutateAsync, isLoading } = useMutation("login", (payload) =>
   api.post("/auth/login", payload)
 );
 
@@ -69,7 +78,7 @@ const handleSubmit = async () => {
     const { data } = await mutateAsync(form);
     auth.saveToken(data.token);
 
-    api.defaults.headers.authorization = `Bearer ${data.token.refreshToken}`;
+    api.defaults.headers["Authorization"] = `Bearer ${data.token.accessToken}`;
 
     notification.success({
       content: "Successfully logged in",
@@ -77,10 +86,9 @@ const handleSubmit = async () => {
     await auth.boot();
     router.push({ name: "index" });
   } catch (error) {
-    console.log(error.response);
-    // notification.error({
-    //   content: error.response.data.message,
-    // });
+    notification.error({
+      content: error.response.data.message,
+    });
   }
 };
 </script>
