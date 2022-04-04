@@ -11,7 +11,7 @@
       <img class="w-10 h-10 rounded-md" :src="auth.user.avatar" />
       <div>
         <p class="font-semibold">{{ auth.user.name }}</p>
-        <p class="text-sm text-slate-600">Admin</p>
+        <p class="text-sm text-slate-600 dark:text-red-400">Admin</p>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"

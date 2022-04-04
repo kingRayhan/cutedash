@@ -8,7 +8,7 @@ const useAuthStore = defineStore("auth", {
   }),
   actions: {
     async boot() {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(async (resolve) => {
         try {
           const { data } = await api.get("/auth/me");
           console.log(data);
@@ -17,7 +17,7 @@ const useAuthStore = defineStore("auth", {
         } catch (error) {
           await this.refreshToken();
         }
-        resolve();
+        resolve(true);
       });
     },
 
@@ -41,9 +41,9 @@ const useAuthStore = defineStore("auth", {
           ] = `Bearer ${data.token.accessToken}`;
 
           await this.boot();
-          resolve();
+          resolve(true);
         } catch (error) {
-          resolve();
+          resolve(true);
         }
       });
     },
@@ -52,7 +52,7 @@ const useAuthStore = defineStore("auth", {
         this.clearToken();
         this.loggedIn = false;
         this.user = {};
-        resolve();
+        resolve(true);
       });
     },
 

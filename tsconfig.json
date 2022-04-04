@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "lib": ["es2015"],
+    "allowJs": true,
     "types": ["naive-ui/volar"],
     "baseUrl": "./src",
     "paths": {

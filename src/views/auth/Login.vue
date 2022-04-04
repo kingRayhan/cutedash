@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from "vue";
 import { useNotification } from "naive-ui";
 import { useMutation } from "vue-query";
@@ -68,8 +68,9 @@ const form = reactive({
   password: "",
 });
 
-const { mutateAsync, isLoading } = useMutation("login", (payload) =>
-  api.post("/auth/login", payload)
+const { mutateAsync, isLoading } = useMutation(
+  "login",
+  (payload: typeof form) => api.post("/auth/login", payload)
 );
 
 const handleSubmit = async () => {

@@ -1,8 +1,13 @@
 import useAuthStore from "@/store/auth";
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  Router,
+  RouteRecordRaw,
+} from "vue-router";
 import adminRoutes from "./admin-routes";
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     redirect: "/admin",
@@ -20,7 +25,7 @@ const routes = [
   },
 ];
 
-const router = createRouter({
+const router: Router = createRouter({
   history: createWebHistory(),
   routes,
 });
