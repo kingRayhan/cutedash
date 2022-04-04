@@ -1,23 +1,21 @@
 <template>
   <n-dropdown
+    v-if="auth.loggedIn"
     trigger="click"
     placement="bottom"
     :options="options"
     size="huge"
     @select="handleSelect"
   >
-    <div class="flex gap-2 cursor-pointer items-center">
-      <img
-        class="w-10 h-10 rounded-md"
-        src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1040.jpg"
-      />
+    <div class="flex items-center gap-2 cursor-pointer">
+      <img class="w-10 h-10 rounded-md" :src="auth.user.avatar" />
       <div>
-        <p class="font-semibold">Stephen Austin</p>
-        <p class="text-sm text-slate-600">Chief manager</p>
+        <p class="font-semibold">{{ auth.user.name }}</p>
+        <p class="text-sm text-slate-600">Admin</p>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
+        class="w-5 h-5"
         viewBox="0 0 20 20"
         fill="currentColor"
       >
@@ -40,6 +38,9 @@ import {
   LogoutOutlined as LogoutIcon,
   CarryOutFilled,
 } from "@vicons/antd";
+import useAuthStore from "@/store/auth";
+
+const auth = useAuthStore();
 
 const renderIcon = (icon) => {
   return () => {
