@@ -1,6 +1,7 @@
 import useAuthStore from "@/store/auth";
 import {
   createRouter,
+  createWebHashHistory,
   createWebHistory,
   Router,
   RouteRecordRaw,
@@ -26,7 +27,7 @@ const routes: RouteRecordRaw[] = [
 ];
 
 const router: Router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 
